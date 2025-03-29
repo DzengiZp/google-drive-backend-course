@@ -1,0 +1,6 @@
+@google_drive_HostAddress = http://localhost:5075
+
+GET {{google_drive_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
