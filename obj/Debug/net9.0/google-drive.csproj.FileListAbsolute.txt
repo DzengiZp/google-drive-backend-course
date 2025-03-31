@@ -133,3 +133,16 @@ C:\Users\dzeng\Desktop\SoloCode\4-Backend\In Progress\google-drive\obj\Debug\net
 C:\Users\dzeng\Desktop\SoloCode\4-Backend\In Progress\google-drive\obj\Debug\net9.0\google-drive.pdb
 C:\Users\dzeng\Desktop\SoloCode\4-Backend\In Progress\google-drive\obj\Debug\net9.0\google-drive.genruntimeconfig.cache
 C:\Users\dzeng\Desktop\SoloCode\4-Backend\In Progress\google-drive\obj\Debug\net9.0\ref\google-drive.dll
+C:\Users\dzeng\Desktop\SoloCode\4-Backend\In Progress\google-drive\bin\Debug\net9.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\dzeng\Desktop\SoloCode\4-Backend\In Progress\google-drive\bin\Debug\net9.0\Microsoft.AspNetCore.Cryptography.Internal.dll
+C:\Users\dzeng\Desktop\SoloCode\4-Backend\In Progress\google-drive\bin\Debug\net9.0\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
+C:\Users\dzeng\Desktop\SoloCode\4-Backend\In Progress\google-drive\bin\Debug\net9.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+C:\Users\dzeng\Desktop\SoloCode\4-Backend\In Progress\google-drive\bin\Debug\net9.0\Microsoft.Extensions.Identity.Core.dll
+C:\Users\dzeng\Desktop\SoloCode\4-Backend\In Progress\google-drive\bin\Debug\net9.0\Microsoft.Extensions.Identity.Stores.dll
+C:\Users\dzeng\Desktop\SoloCode\4-Backend\In Progress\google-drive\bin\Debug\net9.0\Microsoft.IdentityModel.Abstractions.dll
+C:\Users\dzeng\Desktop\SoloCode\4-Backend\In Progress\google-drive\bin\Debug\net9.0\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\dzeng\Desktop\SoloCode\4-Backend\In Progress\google-drive\bin\Debug\net9.0\Microsoft.IdentityModel.Logging.dll
+C:\Users\dzeng\Desktop\SoloCode\4-Backend\In Progress\google-drive\bin\Debug\net9.0\Microsoft.IdentityModel.Protocols.dll
+C:\Users\dzeng\Desktop\SoloCode\4-Backend\In Progress\google-drive\bin\Debug\net9.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+C:\Users\dzeng\Desktop\SoloCode\4-Backend\In Progress\google-drive\bin\Debug\net9.0\Microsoft.IdentityModel.Tokens.dll
+C:\Users\dzeng\Desktop\SoloCode\4-Backend\In Progress\google-drive\bin\Debug\net9.0\System.IdentityModel.Tokens.Jwt.dll
