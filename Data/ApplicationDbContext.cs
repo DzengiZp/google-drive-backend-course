@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 
-public class ApplicationDbContext : DbContext
+public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : DbContext(options)
 {
-    DbSet<User> Users { get; set; }
+    public DbSet<User> Users { get; set; }
 }
