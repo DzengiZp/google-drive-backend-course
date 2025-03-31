@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "Xn3WZdy8IPx0/9Ei+gcGiI+lcY2fZTfNokeAFEcoQcE=",
+  "Source": "google-drive",
+  "BasePath": "_content/google-drive",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}
