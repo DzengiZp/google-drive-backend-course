@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-public class FilesController : ControllerBase
+public class FilesControllers : ControllerBase
 {
 
 }

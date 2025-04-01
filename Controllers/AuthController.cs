@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-[Route("api/[controller]")]
+[Route("api/authentication")]
 [ApiController]
-public class AuthController(IAuthService authService) : ControllerBase
+public class AuthControllers(IAuthService authService) : ControllerBase
 {
 
     [HttpPost("register")]
