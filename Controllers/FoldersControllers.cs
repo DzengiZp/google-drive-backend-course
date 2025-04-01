@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.IO;
+using System.IO.Compression;
 
 [Route("api/folders")]
 [ApiController]
@@ -30,4 +32,10 @@ public class FoldersControllers : ControllerBase
         return Ok(folder);
     }
 
+    /* [HttpGet]
+    [Route("download/{folderId}")]
+    public ActionResult DownloadFolder(int folderId)
+    {
+        
+    } */
 }
