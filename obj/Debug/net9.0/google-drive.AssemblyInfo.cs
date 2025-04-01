@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("google-drive")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+def6d16ae60d6872d72fbef9039e5f2d09b86cde")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c82b97d755da0bdc0c0d4786b60ededb0e4ed8bc")]
 [assembly: System.Reflection.AssemblyProductAttribute("google-drive")]
 [assembly: System.Reflection.AssemblyTitleAttribute("google-drive")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

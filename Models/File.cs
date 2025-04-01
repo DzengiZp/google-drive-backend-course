@@ -9,7 +9,7 @@ public class File
     [Required]
     public string FileExtension { get; set; } = string.Empty;
     [Required]
-    public string FileContent { get; set; } = string.Empty;
+    public byte[] FileContentBytes { get; set; } = [];
     [Required]
     public Guid UserId { get; set; }
     public int FolderId { get; set; }

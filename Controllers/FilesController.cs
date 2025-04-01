@@ -1,6 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using System.Text;
-
 
 [Route("api/files")]
 [ApiController]
@@ -13,27 +11,59 @@ public class FilesControllers : ControllerBase
     }
 
     [HttpPost]
-    [Route("create")]
-    public ActionResult CreateFile([FromBody] CreateFileDto createFileDto)
+    [Route("upload")]
+    public ActionResult UploadFile(IFormFile uploadedFile, Guid userId, int folderId)
     {
-        var existingUser = _context.Users.Find(createFileDto.UserId);
-        if (existingUser is null) return NotFound("User does not exist");
+        var existingUser = _context.Users.Find(userId);
+        if (existingUser == null) return NotFound("User does not exist");
 
-        var existingFolder = _context.Folders.Find(createFileDto.FolderId);
-        if (existingFolder is null) return NotFound("Folder does not exist");
+        var existingFolder = _context.Folders.Find(folderId);
+        if (existingFolder == null) return NotFound("Folder does not exist");
+
+        string path = Path.Combine(Directory.GetCurrentDirectory(), "google-drive-backend");
+        if (path is null) return BadRequest();
+
+        using var memoryStream = new MemoryStream();
+        uploadedFile.CopyTo(memoryStream);
+
+        var fileContentBytes = memoryStream.ToArray();
 
         var file = new File
         {
-            FileName = createFileDto.FileName,
-            FileExtension = createFileDto.FileExtension,
-            UserId = createFileDto.UserId,
-            FolderId = createFileDto.FolderId
+            FileName = uploadedFile.FileName,
+            FileExtension = Path.GetExtension(uploadedFile.FileName),
+            FileContentBytes = fileContentBytes,
+            UserId = userId,
+            FolderId = folderId
         };
 
         _context.Files.Add(file);
         _context.SaveChanges();
 
-        return Ok(file);
+        return Ok(new { file.Id });
+    }
+
+    /// <summary>
+    /// Testing purposes because some files have too large bytes, so used for validating data in Scalar instead of Database.
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    [HttpGet]
+    [Route("getFile/{id}")]
+    public ActionResult GetFile(int id)
+    {
+        var file = _context.Files.Find(id);
+        if (file == null) return NotFound("File does not exist");
+
+        return Ok(new
+        {
+            file.Id,
+            file.FileName,
+            file.FileContentBytes,
+            file.FileExtension,
+            file.FolderId,
+            file.UserId
+        });
     }
 
     [HttpDelete]
@@ -56,6 +86,6 @@ public class FilesControllers : ControllerBase
         var file = _context.Files.Find(id);
         if (file is null) return NotFound("File does not exist");
 
-        return File(file.FileContent, "application/octet-stream", file.FileName + file.FileExtension);
+        return File(file.FileContentBytes, "application/octet-stream", file.FileName);
     }
 }
