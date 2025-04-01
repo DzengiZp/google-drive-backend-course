@@ -1200,7 +1200,7 @@
           }
         }
       },
-      "Scalar.AspNetCore/2.1.3": {
+      "Scalar.AspNetCore/2.1.4": {
         "type": "package",
         "compile": {
           "lib/net9.0/Scalar.AspNetCore.dll": {
@@ -4603,10 +4603,10 @@
         "runtimes/ubuntu.16.10-x64/native/System.Security.Cryptography.Native.OpenSsl.so"
       ]
     },
-    "Scalar.AspNetCore/2.1.3": {
-      "sha512": "HBkeOYCFWBfJfXDWBRqs+MBG7n6SGZwGT8sTCewxsigy2dxF0TUW+MFP4IrudOTZMa02dnimQdUmHYvTkBAmAA==",
+    "Scalar.AspNetCore/2.1.4": {
+      "sha512": "sNCaKIMan8PF4LLfqcimru54CxNeGijEl3RzRMEGAlwtihaMNJrx7RRreppqScr0hp0i2D2Oeh5lf2cFBUFtqA==",
       "type": "package",
-      "path": "scalar.aspnetcore/2.1.3",
+      "path": "scalar.aspnetcore/2.1.4",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -4616,7 +4616,7 @@
         "lib/net8.0/Scalar.AspNetCore.xml",
         "lib/net9.0/Scalar.AspNetCore.dll",
         "lib/net9.0/Scalar.AspNetCore.xml",
-        "scalar.aspnetcore.2.1.3.nupkg.sha512",
+        "scalar.aspnetcore.2.1.4.nupkg.sha512",
         "scalar.aspnetcore.nuspec"
       ]
     },
@@ -8005,28 +8005,28 @@
       "Microsoft.EntityFrameworkCore.Design >= 9.0.3",
       "Microsoft.Extensions.Identity.Core >= 9.0.3",
       "Npgsql.EntityFrameworkCore.PostgreSQL >= 9.0.4",
-      "Scalar.AspNetCore >= 2.1.3",
+      "Scalar.AspNetCore >= 2.1.4",
       "System.IdentityModel.Tokens.Jwt >= 8.7.0"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\dzeng\\.nuget\\packages\\": {},
+    "C:\\Users\\Dzengiz\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\dzeng\\Desktop\\SoloCode\\4-Backend\\In Progress\\google-drive\\google-drive.csproj",
+      "projectUniqueName": "C:\\Users\\Dzengiz\\Desktop\\CodeSolo\\Backend\\In Progress\\google-drive-project\\google-drive-backend\\google-drive.csproj",
       "projectName": "google-drive",
-      "projectPath": "C:\\Users\\dzeng\\Desktop\\SoloCode\\4-Backend\\In Progress\\google-drive\\google-drive.csproj",
-      "packagesPath": "C:\\Users\\dzeng\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\dzeng\\Desktop\\SoloCode\\4-Backend\\In Progress\\google-drive\\obj\\",
+      "projectPath": "C:\\Users\\Dzengiz\\Desktop\\CodeSolo\\Backend\\In Progress\\google-drive-project\\google-drive-backend\\google-drive.csproj",
+      "packagesPath": "C:\\Users\\Dzengiz\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Dzengiz\\Desktop\\CodeSolo\\Backend\\In Progress\\google-drive-project\\google-drive-backend\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\dzeng\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Dzengiz\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -8053,7 +8053,7 @@
         "auditLevel": "low",
         "auditMode": "direct"
       },
-      "SdkAnalysisLevel": "9.0.100"
+      "SdkAnalysisLevel": "9.0.200"
     },
     "frameworks": {
       "net9.0": {
@@ -8091,7 +8091,7 @@
           },
           "Scalar.AspNetCore": {
             "target": "Package",
-            "version": "[2.1.3, )"
+            "version": "[2.1.4, )"
           },
           "System.IdentityModel.Tokens.Jwt": {
             "target": "Package",
@@ -8117,7 +8117,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.101/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.202/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

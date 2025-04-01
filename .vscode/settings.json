@@ -5,9 +5,9 @@
         "**/appsettings.json": false,
         "**/google-drive.csproj": true,
         "**/google-drive.http": true,
-        "**/google-drive.sln": true,
+        "**/google-drive.sln": false,
         "**/obj": true,
         "**/Properties": true,
-        "**/bin": true,
+        "**/bin": true
     }
 }
