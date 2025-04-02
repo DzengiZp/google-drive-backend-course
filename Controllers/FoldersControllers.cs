@@ -15,9 +15,9 @@ public class FoldersControllers : ControllerBase
 
     [HttpPost]
     [Route("create")]
-    public ActionResult CreateFolder([FromBody] FolderDto folderDto)
+    public async Task<ActionResult> CreateFolder([FromBody] FolderDto folderDto)
     {
-        var existingUser = _context.Users.Find(folderDto.UserId);
+        var existingUser = await _context.Users.FindAsync(folderDto.UserId);
         if (existingUser == null) return NotFound("User not found");
 
         var folder = new Folder
@@ -26,16 +26,23 @@ public class FoldersControllers : ControllerBase
             UserId = folderDto.UserId
         };
 
-        _context.Folders.Add(folder);
-        _context.SaveChanges();
+        await _context.Folders.AddAsync(folder);
+        await _context.SaveChangesAsync();
 
         return Ok(folder);
     }
 
-    /* [HttpGet]
-    [Route("download/{folderId}")]
-    public ActionResult DownloadFolder(int folderId)
+    [HttpDelete]
+    [Route("delete{folderId}")]
+    public async Task<ActionResult> DeleteFolder(int folderId)
     {
-        
-    } */
+        var existingFolder = await _context.Folders.FindAsync(folderId);
+        if (existingFolder == null) return NotFound("Folder not found");
+
+        _context.Folders.Remove(existingFolder);
+        await _context.SaveChangesAsync();
+        // Console.WriteLine(whatever);
+
+        return NoContent();
+    }
 }

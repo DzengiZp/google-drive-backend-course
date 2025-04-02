@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-[Route("api/authentication")]
+[Route("api/auth")]
 [ApiController]
 public class AuthControllers(IAuthService authService) : ControllerBase
 {
@@ -28,7 +28,7 @@ public class AuthControllers(IAuthService authService) : ControllerBase
 
     [Authorize]
     [HttpGet("authenticate")]
-    public IActionResult AuthenticatedOnlyEndpoint()
+    public ActionResult AuthenticatedOnlyEndpoint()
     {
         return Ok("You are authenticated");
     }

@@ -1,5 +1,3 @@
-using System.ComponentModel.DataAnnotations;
-
 public class FolderDto
 {
     public Guid UserId { get; set; }

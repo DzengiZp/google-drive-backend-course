@@ -1,5 +1,3 @@
-using System.ComponentModel.DataAnnotations;
-
 public class FileDto
 {
     public string FileName { get; set; } = string.Empty;

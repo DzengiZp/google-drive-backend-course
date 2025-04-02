@@ -9,4 +9,6 @@ public class Folder
     [JsonIgnore]
     public List<File> File { get; set; } = [];
     public Guid UserId { get; set; }
+
+
 }

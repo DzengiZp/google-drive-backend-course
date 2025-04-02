@@ -1,46 +1,20 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 [Route("api/files")]
 [ApiController]
-public class FilesControllers : ControllerBase
+public class FilesControllers(ApplicationDbContext _context, IFileRepository _fileRepo, IFileService _fileService) : ControllerBase
 {
-    private readonly ApplicationDbContext _context;
-    public FilesControllers(ApplicationDbContext context)
-    {
-        _context = context;
-    }
 
     [HttpPost]
     [Route("upload")]
-    public ActionResult UploadFile(IFormFile uploadedFile, Guid userId, int folderId)
+    public async Task<ActionResult> Upload(IFormFile uploadedFile, [FromQuery] Guid userId, int folderId)
     {
-        var existingUser = _context.Users.Find(userId);
-        if (existingUser == null) return NotFound("User does not exist");
+        var file = await _fileService.UploadAsync(uploadedFile, userId, folderId);
 
-        var existingFolder = _context.Folders.Find(folderId);
-        if (existingFolder == null) return NotFound("Folder does not exist");
+        if (file == null) return BadRequest("Can't upload null, select a file");
 
-        string path = Path.Combine(Directory.GetCurrentDirectory(), "google-drive-backend");
-        if (path is null) return BadRequest();
-
-        using var memoryStream = new MemoryStream();
-        uploadedFile.CopyTo(memoryStream);
-
-        var fileContentBytes = memoryStream.ToArray();
-
-        var file = new File
-        {
-            FileName = uploadedFile.FileName,
-            FileExtension = Path.GetExtension(uploadedFile.FileName),
-            FileContentBytes = fileContentBytes,
-            UserId = userId,
-            FolderId = folderId
-        };
-
-        _context.Files.Add(file);
-        _context.SaveChanges();
-
-        return Ok(new { file.Id });
+        return Ok(file);
     }
 
     /// <summary>
@@ -50,9 +24,10 @@ public class FilesControllers : ControllerBase
     /// <returns></returns>
     [HttpGet]
     [Route("getFile/{id}")]
-    public ActionResult GetFile(int id)
+    public async Task<ActionResult> Get(int id)
     {
-        var file = _context.Files.Find(id);
+        var file = await _context.Files.FindAsync(id);
+
         if (file == null) return NotFound("File does not exist");
 
         return Ok(new
@@ -68,23 +43,20 @@ public class FilesControllers : ControllerBase
 
     [HttpDelete]
     [Route("delete/{id}")]
-    public ActionResult DeleteFile(int id)
+    public async Task<ActionResult> Delete(int id)
     {
-        var file = _context.Files.FirstOrDefault(f => f.Id == id);
-        if (file is null) return NotFound("File doesn't exist.");
-
-        _context.Files.Remove(file);
-        _context.SaveChanges();
+        var file = await _fileRepo.DeleteFileByIdAsync(id);
+        if (file == null) return NotFound(file);
 
         return NoContent();
     }
 
     [HttpGet]
     [Route("download/{id}")]
-    public ActionResult DownloadFile(int id)
+    public async Task<ActionResult> Download(int id)
     {
-        var file = _context.Files.Find(id);
-        if (file is null) return NotFound("File does not exist");
+        var file = await _fileRepo.GetFileByIdAsync(id);
+        if (file is null) return NotFound(file);
 
         return File(file.FileContentBytes, "application/octet-stream", file.FileName);
     }
