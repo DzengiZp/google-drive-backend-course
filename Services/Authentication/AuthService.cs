@@ -48,11 +48,17 @@ public class AuthService(ApplicationDbContext context, IConfiguration configurat
             new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
         };
 
+        Console.WriteLine("Claims: " + claims);
+
         var key = new SymmetricSecurityKey(
             Encoding.UTF8.GetBytes(configuration.GetValue<string>("AppSettings:Token")!)
         );
 
+        Console.WriteLine("Key: " + key);
+
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512);
+
+        Console.WriteLine("Creds" + creds);
 
         var tokenDescriptor = new JwtSecurityToken(
             issuer: configuration.GetValue<string>("AppSettings:Issuer"),
@@ -62,7 +68,7 @@ public class AuthService(ApplicationDbContext context, IConfiguration configurat
             signingCredentials: creds
         );
 
+        Console.WriteLine("TokenDescriptor: " + tokenDescriptor);
         return new JwtSecurityTokenHandler().WriteToken(tokenDescriptor);
-
     }
 }

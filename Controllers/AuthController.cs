@@ -1,11 +1,9 @@
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 [Route("api/auth")]
 [ApiController]
 public class AuthControllers(IAuthService authService) : ControllerBase
 {
-
     [HttpPost("register")]
     public async Task<ActionResult<User>> Register(UserDto request)
     {
@@ -13,6 +11,7 @@ public class AuthControllers(IAuthService authService) : ControllerBase
 
         if (user is null) return BadRequest("Username already exist");
 
+        Console.WriteLine("User: " + user);
         return Ok(user);
     }
 
@@ -23,13 +22,7 @@ public class AuthControllers(IAuthService authService) : ControllerBase
 
         if (token is null) return BadRequest("Invalid username or password");
 
+        Console.WriteLine("Token: " + token);
         return Ok(token);
-    }
-
-    [Authorize]
-    [HttpGet("authenticate")]
-    public ActionResult AuthenticatedOnlyEndpoint()
-    {
-        return Ok("You are authenticated");
     }
 }

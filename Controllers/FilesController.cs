@@ -1,32 +1,42 @@
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 [Route("api/files")]
 [ApiController]
-public class FilesControllers(ApplicationDbContext _context, IFileRepository _fileRepo, IFileService _fileService) : ControllerBase
+public class FilesControllers(ApplicationDbContext context, IFileRepository fileRepo, IFileService fileService) : ControllerBase
 {
-
+    [Authorize]
     [HttpPost]
     [Route("upload")]
-    public async Task<ActionResult> Upload(IFormFile uploadedFile, [FromQuery] Guid userId, int folderId)
+    public async Task<ActionResult> Upload(IFormFile uploadedFile, [FromQuery] int folderId)
     {
-        var file = await _fileService.UploadAsync(uploadedFile, userId, folderId);
+        try
+        {
+            var userIdString = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-        if (file == null) return BadRequest("Can't upload null, select a file");
+            if (!Guid.TryParse(userIdString, out Guid userId)) return Unauthorized("Invalid user ID in token.");
 
-        return Ok(file);
+            var file = await fileService.UploadAsync(uploadedFile, userId, folderId);
+
+            if (file == null) return BadRequest("Can't upload null, select a file");
+
+            return Ok(file);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
 
-    /// <summary>
-    /// Testing purposes because some files have too large bytes, so used for validating data in Scalar instead of Database.
-    /// </summary>
-    /// <param name="id"></param>
-    /// <returns></returns>
-    [HttpGet]
+
+    // Testing purposes because some files have too large bytes, so used for validating data in Scalar instead of Database.
+    [HttpGet] //NO AUTH ON THIS METHOD.
     [Route("getFile/{id}")]
     public async Task<ActionResult> Get(int id)
     {
-        var file = await _context.Files.FindAsync(id);
+        //Create for Repo to handle instead.
+        var file = await context.Files.FindAsync(id);
 
         if (file == null) return NotFound("File does not exist");
 
@@ -41,21 +51,23 @@ public class FilesControllers(ApplicationDbContext _context, IFileRepository _fi
         });
     }
 
+    [Authorize]
     [HttpDelete]
     [Route("delete/{id}")]
     public async Task<ActionResult> Delete(int id)
     {
-        var file = await _fileRepo.DeleteFileByIdAsync(id);
+        var file = await fileRepo.DeleteFileByIdAsync(id);
         if (file == null) return NotFound(file);
 
         return NoContent();
     }
 
+    [Authorize]
     [HttpGet]
     [Route("download/{id}")]
     public async Task<ActionResult> Download(int id)
     {
-        var file = await _fileRepo.GetFileByIdAsync(id);
+        var file = await fileRepo.GetFileByIdAsync(id);
         if (file is null) return NotFound(file);
 
         return File(file.FileContentBytes, "application/octet-stream", file.FileName);

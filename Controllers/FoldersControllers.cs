@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.IO;
@@ -13,6 +14,7 @@ public class FoldersControllers : ControllerBase
         _context = context;
     }
 
+    [Authorize]
     [HttpPost]
     [Route("create")]
     public async Task<ActionResult> CreateFolder([FromBody] FolderDto folderDto)
@@ -32,6 +34,7 @@ public class FoldersControllers : ControllerBase
         return Ok(folder);
     }
 
+    [Authorize]
     [HttpDelete]
     [Route("delete{folderId}")]
     public async Task<ActionResult> DeleteFolder(int folderId)
