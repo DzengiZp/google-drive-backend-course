@@ -1,8 +1,6 @@
-
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
@@ -66,12 +64,12 @@ public class UserService(ApplicationDbContext context, IConfiguration configurat
         return new JwtSecurityTokenHandler().WriteToken(tokenDescriptor);
     }
 
-    private static string HashPassword(string password)
+    private static string HashPassword(string password) // FRÅGA WILLIAM OM DESSA SKA VARA HÄR
     {
         return BCrypt.Net.BCrypt.EnhancedHashPassword(password);
     }
 
-    private static bool CheckHashedPassword(string password, string hashedPassword)
+    private static bool CheckHashedPassword(string password, string hashedPassword) // FRÅGA WILLIAM OM DESSA SKA VARA HÄR
     {
         return BCrypt.Net.BCrypt.EnhancedVerify(password, hashedPassword);
     }
