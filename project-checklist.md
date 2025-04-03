@@ -28,7 +28,7 @@
 
 15. Kommentera alla service metoder med en C# standard, allt de andra behöver men man kan om man vill.
 
-16. Implementera säkerhet. (Punkt 9-13) (Authorization/Authentication)
+16. Implementera säkerhet. (Punkt 9-13) (Authorization)
 
 17. Try Catch överallt
 

@@ -12,9 +12,10 @@ public class FolderRepository(ApplicationDbContext context) : IFolderRepository
         return folder;
     }
 
-    public async Task<Folder> DeleteByIdAsync(int id)
+    public async Task<Folder?> DeleteByIdAsync(int id)
     {
-        var folder = await context.Folders.FindAsync(id) ?? throw new Exception("Folder doesn't exist");
+        var folder = await context.Folders.FindAsync(id);
+        if (folder is null) return null; /* ?? throw new Exception("Folder doesn't exist!!!!!"); */ // FRÅGA WILLIAM
 
         context.Folders.Remove(folder);
         await context.SaveChangesAsync();

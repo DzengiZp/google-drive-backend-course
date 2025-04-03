@@ -46,7 +46,6 @@ app.MapGet("", () => Results.Redirect("/scalar/v1"));
 
 if (app.Environment.IsDevelopment())
 {
-    app.UseDeveloperExceptionPage(); //Testing exceptions here.
     app.MapScalarApiReference();
     app.MapOpenApi();
 }

@@ -11,8 +11,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace google_drive.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250402104125_Testing")]
-    partial class Testing
+    [Migration("20250403184941_Initirial")]
+    partial class Initirial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -69,7 +69,8 @@ namespace google_drive.Migrations
 
                     b.Property<string>("FolderName")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(15)
+                        .HasColumnType("character varying(15)");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uuid");

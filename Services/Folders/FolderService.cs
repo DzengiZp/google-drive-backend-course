@@ -23,7 +23,7 @@ public class FolderService(IFolderRepository folderRepo) : IFolderService
         }
     }
 
-    public async Task<Folder> DeleteFolderByIdAsync(int id)
+    public async Task<Folder?> DeleteFolderByIdAsync(int id)
     {
         try
         {
@@ -31,7 +31,7 @@ public class FolderService(IFolderRepository folderRepo) : IFolderService
         }
         catch (Exception ex)
         {
-            throw new Exception(ex.Message);
+            throw new Exception("Hahahahaha", ex);
         }
     }
 

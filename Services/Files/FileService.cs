@@ -32,11 +32,11 @@ public class FileService(IFileRepository fileRepository) : IFileService
         }
     }
 
-    public Task<File?> DownloadFileByIdAsync(int id)
+    public async Task<File?> DownloadFileByIdAsync(int id)
     {
         try
         {
-            return fileRepository.DownloadFileByIdAsync(id);
+            return await fileRepository.DownloadFileByIdAsync(id);
         }
         catch (Exception ex)
         {
@@ -44,11 +44,11 @@ public class FileService(IFileRepository fileRepository) : IFileService
         }
     }
 
-    public Task<IEnumerable<File>> GetAllFilesAsync()
+    public async Task<IEnumerable<File>> GetAllFilesAsync()
     {
         try
         {
-            return fileRepository.GetAllFilesAsync();
+            return await fileRepository.GetAllFilesAsync();
         }
         catch (Exception ex)
         {
@@ -56,11 +56,11 @@ public class FileService(IFileRepository fileRepository) : IFileService
         }
     }
 
-    public Task<File?> GetFileByIdAsync(int id)
+    public async Task<File?> GetFileByIdAsync(int id)
     {
         try
         {
-            return fileRepository.GetFileByIdAsync(id);
+            return await fileRepository.GetFileByIdAsync(id);
         }
         catch (Exception ex)
         {
@@ -68,11 +68,11 @@ public class FileService(IFileRepository fileRepository) : IFileService
         }
     }
 
-    public Task<File?> DeleteFileByIdAsync(int id)
+    public async Task<File?> DeleteFileByIdAsync(int id)
     {
         try
         {
-            return fileRepository.DeleteFileByIdAsync(id);
+            return await fileRepository.DeleteFileByIdAsync(id);
         }
         catch (Exception ex)
         {

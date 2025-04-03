@@ -66,7 +66,8 @@ namespace google_drive.Migrations
 
                     b.Property<string>("FolderName")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(15)
+                        .HasColumnType("character varying(15)");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uuid");
