@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-// [Authorize]
+[Authorize]
 [Route("api/folders")]
 [ApiController]
 public class FoldersController(IFolderService folderService) : ControllerBase

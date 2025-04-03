@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Authorization;
+
 public class FolderService(IFolderRepository folderRepo) : IFolderService
 {
     public async Task<Folder> CreateFolderAsync(FolderDto folderDto)
@@ -47,6 +49,7 @@ public class FolderService(IFolderRepository folderRepo) : IFolderService
         }
     }
 
+    [Authorize] //Ask
     public async Task<Folder> GetFolderByIdAsync(int id)
     {
         try

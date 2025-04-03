@@ -14,6 +14,8 @@ var connectionString = Env.GetString("DATABASE_STRING");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(connectionString));
 
+builder.Services.AddHttpContextAccessor();
+
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
@@ -57,8 +59,6 @@ app.UseCors(x => x
     .AllowCredentials());
 
 app.UseHttpsRedirection();
-
-app.UseAuthentication();
 
 app.UseAuthorization();
 

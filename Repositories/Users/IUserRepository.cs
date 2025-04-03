@@ -1,5 +1,6 @@
 public interface IUserRepository
 {
-    Task<User> CreateAsync(UserDto userDto);
-    Task<User> LoginAsync(UserDto userDto);
+    Task<User?> GetUserByUsernameAsync(string username);
+    Task AddUserAsync(User user);
+    Task SaveChangesAsync();
 }

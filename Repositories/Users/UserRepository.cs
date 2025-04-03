@@ -1,13 +1,20 @@
 
-public class UserRepository : IUserRepository
+using Microsoft.EntityFrameworkCore;
+
+public class UserRepository(ApplicationDbContext context) : IUserRepository
 {
-    public Task<User> CreateAsync(UserDto userDto)
+    public async Task<User?> GetUserByUsernameAsync(string username)
     {
-        throw new NotImplementedException();
+        return await context.Users.FirstOrDefaultAsync(u => u.Username == username);
     }
 
-    public Task<User> LoginAsync(UserDto userDto)
+    public async Task AddUserAsync(User user) // Ask
     {
-        throw new NotImplementedException();
+        await context.Users.AddAsync(user);
+    }
+
+    public async Task SaveChangesAsync()
+    {
+        await context.SaveChangesAsync();
     }
 }

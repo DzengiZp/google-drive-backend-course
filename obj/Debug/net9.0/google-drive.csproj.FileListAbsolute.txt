@@ -442,3 +442,4 @@ C:\Users\dzeng\Desktop\SoloCode\4-Backend\In Progress\google-drive-project\googl
 C:\Users\dzeng\Desktop\SoloCode\4-Backend\In Progress\google-drive-project\google-drive-backend\obj\Debug\net9.0\google-drive.genruntimeconfig.cache
 C:\Users\dzeng\Desktop\SoloCode\4-Backend\In Progress\google-drive-project\google-drive-backend\obj\Debug\net9.0\ref\google-drive.dll
 C:\Users\dzeng\Desktop\SoloCode\4-Backend\In Progress\google-drive-project\google-drive-backend\bin\Debug\net9.0\BCrypt.Net-Next.dll
+C:\Users\Dzengiz\Desktop\CodeSolo\Backend\In Progress\google-drive-project\google-drive-backend\bin\Debug\net9.0\BCrypt.Net-Next.dll

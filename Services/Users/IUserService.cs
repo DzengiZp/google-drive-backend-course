@@ -1,5 +1,5 @@
 public interface IUserService
 {
-    Task<User?> RegisterAsync(UserDto request);
-    Task<string?> LoginAsync(UserDto request);
+    Task<string?> LoginAsync(UserDto userDto);
+    Task<User?> RegisterAsync(UserDto userDto);
 }

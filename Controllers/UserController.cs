@@ -5,19 +5,19 @@ using Microsoft.AspNetCore.Mvc;
 public class UserController(IUserService userService) : ControllerBase
 {
     [HttpPost("register")]
-    public async Task<ActionResult<User>> Register(UserDto request)
+    public async Task<ActionResult<User>> Register(UserDto userDto)
     {
-        var user = await userService.RegisterAsync(request);
+        var user = await userService.RegisterAsync(userDto);
 
-        if (user is null) return BadRequest("Username already exist");
+        if (user == null) return BadRequest("Register failed");
 
         return Ok(user);
     }
 
     [HttpPost("login")]
-    public async Task<ActionResult<string>> Login(UserDto request)
+    public async Task<ActionResult<string>> Login(UserDto userDto)
     {
-        var token = await userService.LoginAsync(request);
+        var token = await userService.LoginAsync(userDto);
 
         if (token is null) return BadRequest("Invalid username or password");
 
