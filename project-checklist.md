@@ -2,19 +2,17 @@
 
 **1. Skapa en ny mapp (Mappar kan men måste inte kunna innehålla andra mappar)**
 
-2. Ladda upp fil till specifik mapp
+**2. Ladda upp fil till specifik mapp**
 
-3. Radera fil
+**3. Radera fil**
 
-4. Ladda ner fil.
+**4. Ladda ner fil.**
 
-5. Formatera koden.
+**6. Använd git.**
 
-6. Använd git.
+**7. Använd PSQL som databas.**
 
-7. Använd PSQL som databas.
-
-8. Använd EF.
+**8. Använd EF.**
 
 9. Registrering av användare (Använd BCrypt för hashing och salt.)
 
@@ -32,7 +30,9 @@
 
 16. Implementera säkerhet. (Punkt 9-13) (Authorization/Authentication)
 
-17. Try Catch överallt. Research
+17. Try Catch överallt
+
+18. Formatera koden.
 
 P1, EXTRA!
 

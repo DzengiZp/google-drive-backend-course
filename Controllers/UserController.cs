@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 
 [Route("api/user")]
 [ApiController]
-public class UserControllers(IUserService userService) : ControllerBase
+public class UserController(IUserService userService) : ControllerBase
 {
     [HttpPost("register")]
     public async Task<ActionResult<User>> Register(UserDto request)
