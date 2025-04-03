@@ -2,11 +2,11 @@ public class FileService(IFileRepository fileRepository) : IFileService
 {
     public async Task<File> UploadAsync(IFormFile uploadedFile, Guid userId, int folderId)
     {
-        var user = await fileRepository.CheckIfUserExistsAsync(userId);
-        if (user is null) throw new Exception("User not found");
+        if (await fileRepository.CheckIfUserExistsAsync(userId) == null)
+            throw new Exception("User doesn't exist");
 
-        var folder = await fileRepository.CheckIfFolderExistsAsync(folderId);
-        if (folder is null) throw new Exception("Folder not found");
+        if (await fileRepository.CheckIfUserExistsAsync(userId) == null)
+            throw new Exception("Folder doesn't exist");
 
         using var memoryStream = new MemoryStream();
         await uploadedFile.CopyToAsync(memoryStream);

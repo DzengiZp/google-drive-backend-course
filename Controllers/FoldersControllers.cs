@@ -1,50 +1,45 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.IO;
-using System.IO.Compression;
 
+// [Authorize]
 [Route("api/folders")]
 [ApiController]
-public class FoldersControllers : ControllerBase
+public class FoldersControllers(IFolderService folderService) : ControllerBase
 {
-    private readonly ApplicationDbContext _context;
-    public FoldersControllers(ApplicationDbContext context)
-    {
-        _context = context;
-    }
-
-    [Authorize]
     [HttpPost]
     [Route("create")]
-    public async Task<ActionResult> CreateFolder([FromBody] FolderDto folderDto)
+    public async Task<ActionResult> Create([FromBody] FolderDto folderDto)
     {
-        var existingUser = await _context.Users.FindAsync(folderDto.UserId);
-        if (existingUser == null) return NotFound("User not found");
+        await folderService.CreateFolderAsync(folderDto);
+        return Ok(new Folder { FolderName = folderDto.FolderName, UserId = folderDto.UserId });
+    }
 
-        var folder = new Folder
-        {
-            FolderName = folderDto.FolderName,
-            UserId = folderDto.UserId
-        };
-
-        await _context.Folders.AddAsync(folder);
-        await _context.SaveChangesAsync();
+    [HttpGet]
+    [Route("get{id}")]
+    public async Task<ActionResult> GetById(int id)
+    {
+        var folder = await folderService.GetFolderByIdAsync(id);
+        if (folder == null) return NotFound("Folder doesn't exist");
 
         return Ok(folder);
     }
 
-    [Authorize]
+    [HttpGet]
+    [Route("getall")]
+    public async Task<ActionResult> GetAll()
+    {
+        var folders = await folderService.GetAllFoldersAsync();
+        if (folders == null) return NotFound("There are no folders");
+
+        return Ok(folders);
+    }
+
     [HttpDelete]
     [Route("delete{folderId}")]
-    public async Task<ActionResult> DeleteFolder(int folderId)
+    public async Task<ActionResult> DeleteById(int folderId)
     {
-        var existingFolder = await _context.Folders.FindAsync(folderId);
-        if (existingFolder == null) return NotFound("Folder not found");
-
-        _context.Folders.Remove(existingFolder);
-        await _context.SaveChangesAsync();
-        // Console.WriteLine(whatever);
+        var folder = await folderService.DeleteFolderByIdAsync(folderId);
+        if (folder == null) return NotFound("Folder doesn't exist");
 
         return NoContent();
     }

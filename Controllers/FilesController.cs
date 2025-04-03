@@ -2,21 +2,19 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
+[Authorize]
 [Route("api/files")]
 [ApiController]
 public class FilesControllers(ApplicationDbContext context, IFileRepository fileRepo, IFileService fileService) : ControllerBase
 {
-    [Authorize]
     [HttpPost]
     [Route("upload")]
-    public async Task<ActionResult> Upload(IFormFile uploadedFile, [FromQuery] int folderId)
+    public async Task<ActionResult> UploadFile(IFormFile uploadedFile, [FromQuery] int folderId)
     {
         try
         {
             var userIdString = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-
             if (!Guid.TryParse(userIdString, out Guid userId)) return Unauthorized("Invalid user ID in token.");
-
             var file = await fileService.UploadAsync(uploadedFile, userId, folderId);
 
             if (file == null) return BadRequest("Can't upload null, select a file");
@@ -29,11 +27,11 @@ public class FilesControllers(ApplicationDbContext context, IFileRepository file
         }
     }
 
-
+    [AllowAnonymous]
     // Testing purposes because some files have too large bytes, so used for validating data in Scalar instead of Database.
     [HttpGet] //NO AUTH ON THIS METHOD.
     [Route("getFile/{id}")]
-    public async Task<ActionResult> Get(int id)
+    public async Task<ActionResult> GetById(int id)
     {
         //Create for Repo to handle instead.
         var file = await context.Files.FindAsync(id);
@@ -51,21 +49,20 @@ public class FilesControllers(ApplicationDbContext context, IFileRepository file
         });
     }
 
-    [Authorize]
     [HttpDelete]
     [Route("delete/{id}")]
-    public async Task<ActionResult> Delete(int id)
+    public async Task<ActionResult> DeleteById(int id)
     {
         var file = await fileRepo.DeleteFileByIdAsync(id);
+
         if (file == null) return NotFound(file);
 
         return NoContent();
     }
 
-    [Authorize]
     [HttpGet]
     [Route("download/{id}")]
-    public async Task<ActionResult> Download(int id)
+    public async Task<ActionResult> DownloadById(int id)
     {
         var file = await fileRepo.GetFileByIdAsync(id);
         if (file is null) return NotFound(file);

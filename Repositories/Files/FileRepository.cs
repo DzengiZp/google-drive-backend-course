@@ -2,24 +2,17 @@ public class FileRepository(ApplicationDbContext context) : IFileRepository
 {
     public async Task<Folder?> CheckIfFolderExistsAsync(int folderId)
     {
-        var folderExists = await context.Folders.FindAsync(folderId);
-        if (folderExists == null) return null;
-
-        return folderExists;
+        return await context.Folders.FindAsync(folderId) ?? throw new Exception("Folder doesn't exist");
     }
 
     public async Task<User?> CheckIfUserExistsAsync(Guid userId)
     {
-        var userExists = await context.Users.FindAsync(userId);
-        if (userExists == null) return null;
-
-        return userExists;
+        return await context.Users.FindAsync(userId) ?? throw new Exception("User doesn't exist");
     }
 
     public async Task<File?> DeleteFileByIdAsync(int id)
     {
-        var file = await context.Files.FindAsync(id);
-        if (file == null) return null;
+        var file = await context.Files.FindAsync(id) ?? throw new Exception("File doesn't exist");
 
         context.Files.Remove(file);
         await context.SaveChangesAsync();
@@ -29,18 +22,12 @@ public class FileRepository(ApplicationDbContext context) : IFileRepository
 
     public async Task<File?> DownloadFileByIdAsync(int id)
     {
-        var file = await context.Files.FindAsync(id);
-        if (file is null) return null;
-
-        return file;
+        return await context.Files.FindAsync(id) ?? throw new Exception("File doesn't exist");
     }
 
     public async Task<File?> GetFileByIdAsync(int id)
     {
-        var file = await context.Files.FindAsync(id);
-        if (file is null) return null;
-
-        return file;
+        return await context.Files.FindAsync(id) ?? throw new Exception("File doesn't exist");
     }
 
     public async Task<File> UploadFileAsync(File file)

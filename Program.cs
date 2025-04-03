@@ -33,9 +33,12 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     };
 });
 
-builder.Services.AddScoped<IAuthService, AuthService>();
-builder.Services.AddScoped<IFileRepository, FileRepository>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IFolderService, FolderService>();
+builder.Services.AddScoped<IFolderRepository, FolderRepository>();
 builder.Services.AddScoped<IFileService, FileService>();
+builder.Services.AddScoped<IFileRepository, FileRepository>();
 
 var app = builder.Build();
 
@@ -43,6 +46,7 @@ app.MapGet("", () => Results.Redirect("/scalar/v1"));
 
 if (app.Environment.IsDevelopment())
 {
+    app.UseDeveloperExceptionPage(); //Testing exceptions here.
     app.MapScalarApiReference();
     app.MapOpenApi();
 }
