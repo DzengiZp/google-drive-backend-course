@@ -31,7 +31,7 @@ public class FolderService(IFolderRepository folderRepo) : IFolderService
         }
         catch (Exception ex)
         {
-            throw new Exception("Hahahahaha", ex);
+            throw new Exception(ex.Message);
         }
     }
 

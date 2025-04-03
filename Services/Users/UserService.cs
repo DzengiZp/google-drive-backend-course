@@ -13,7 +13,7 @@ public class UserService(ApplicationDbContext context, IConfiguration configurat
         var user = await context.Users.FirstOrDefaultAsync(u => u.Username == request.Username);
         if (user is null) return null;
 
-        if (new PasswordHasher<User>().VerifyHashedPassword(user, user.PasswordHash, request.Password) == PasswordVerificationResult.Failed)
+        if (!CheckHashedPassword(request.Password, user.PasswordHash))
         {
             return null;
         }
@@ -27,9 +27,10 @@ public class UserService(ApplicationDbContext context, IConfiguration configurat
         {
             return null;
         }
+
         var user = new User();
-        var hashedPassword = new PasswordHasher<User>()
-            .HashPassword(user, request.Password);
+
+        var hashedPassword = HashPassword(request.Password);
 
         user.Username = request.Username;
         user.PasswordHash = hashedPassword;
@@ -63,5 +64,15 @@ public class UserService(ApplicationDbContext context, IConfiguration configurat
         );
 
         return new JwtSecurityTokenHandler().WriteToken(tokenDescriptor);
+    }
+
+    private static string HashPassword(string password)
+    {
+        return BCrypt.Net.BCrypt.EnhancedHashPassword(password);
+    }
+
+    private static bool CheckHashedPassword(string password, string hashedPassword)
+    {
+        return BCrypt.Net.BCrypt.EnhancedVerify(password, hashedPassword);
     }
 }
