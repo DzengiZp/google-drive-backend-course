@@ -1,8 +1,7 @@
 public interface IFileService
 {
-    Task<File> UploadFileAsync(IFormFile uploadedFile, string userId, int folderId);
+    Task<File> UploadFileAsync(IFormFile uploadedFile, string userId, Guid folderId);
+    Task<File?> DownloadFileByNameAsync(int id);
     Task<IEnumerable<File>> GetAllFilesAsync();
-    Task<File?> GetFileByIdAsync(int id);
-    Task<File?> DownloadFileByIdAsync(int id);
-    Task<File?> DeleteFileByIdAsync(int id);
+    Task<File?> DeleteFileByNameAsync(int id);
 }

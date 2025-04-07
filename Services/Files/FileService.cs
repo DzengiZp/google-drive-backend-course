@@ -1,6 +1,6 @@
 public class FileService(IFileRepository fileRepository) : IFileService
 {
-    public async Task<File> UploadFileAsync(IFormFile uploadedFile, string userId, int folderId)
+    public async Task<File> UploadFileAsync(IFormFile uploadedFile, string userId, string fileName)
     {
         try
         {
@@ -15,7 +15,7 @@ public class FileService(IFileRepository fileRepository) : IFileService
                 FileExtension = Path.GetExtension(uploadedFile.FileName),
                 FileContentBytes = fileContentBytes,
                 UserId = userId,
-                FolderId = folderId
+                FolderId = Guid.NewGuid()
             };
 
             return await fileRepository.UploadFileAsync(file);
@@ -26,51 +26,18 @@ public class FileService(IFileRepository fileRepository) : IFileService
         }
     }
 
-    public async Task<File?> DownloadFileByIdAsync(int id)
+    public async Task<File?> DownloadFileByNameAsync(int id)
     {
-        try
-        {
-            return await fileRepository.DownloadFileByIdAsync(id);
-        }
-        catch (Exception ex)
-        {
-            throw new Exception(ex.Message);
-        }
+        return await fileRepository.DownloadFileByNameAsync(id);
     }
 
     public async Task<IEnumerable<File>> GetAllFilesAsync()
     {
-        try
-        {
-            return await fileRepository.GetAllFilesAsync();
-        }
-        catch (Exception ex)
-        {
-            throw new Exception(ex.Message);
-        }
+        return await fileRepository.GetAllFilesAsync();
     }
 
-    public async Task<File?> GetFileByIdAsync(int id)
+    public async Task<File?> DeleteFileByNameAsync(int id)
     {
-        try
-        {
-            return await fileRepository.GetFileByIdAsync(id);
-        }
-        catch (Exception ex)
-        {
-            throw new Exception(ex.Message);
-        }
-    }
-
-    public async Task<File?> DeleteFileByIdAsync(int id)
-    {
-        try
-        {
-            return await fileRepository.DeleteFileByIdAsync(id);
-        }
-        catch (Exception ex)
-        {
-            throw new Exception(ex.Message);
-        }
+        return await fileRepository.DeleteFileByNameAsync(id);
     }
 }

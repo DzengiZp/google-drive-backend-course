@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 public class File
 {
-    public int Id { get; set; }
+    public Guid Id { get; set; }
     [Required]
     public string FileName { get; set; } = string.Empty;
     [Required]
@@ -12,7 +12,7 @@ public class File
     public byte[] FileContentBytes { get; set; } = [];
     [Required]
     public string UserId { get; set; } = string.Empty;
-    public int FolderId { get; set; }
+    public Guid FolderId { get; set; }
     [JsonIgnore]
     public Folder? Folder { get; set; }
 }
