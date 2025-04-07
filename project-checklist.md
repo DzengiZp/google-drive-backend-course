@@ -14,7 +14,7 @@
 
 **8. Använd EF.**
 
-9. Registrering av användare (Använd BCrypt för hashing och salt.)
+9. Registrering av användare (Använd BCrypt för hashing och salt.) //WRONG - IDENTITY CORE
 
 10. Inloggning av användare med tokens.
 

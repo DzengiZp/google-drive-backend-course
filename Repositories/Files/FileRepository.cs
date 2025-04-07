@@ -4,7 +4,7 @@ public class FileRepository(ApplicationDbContext context) : IFileRepository
 {
     public async Task<Folder?> CheckIfFolderExistsAsync(int folderId)
     {
-        return await context.Folders.FindAsync(folderId) ?? throw new Exception("Folder doesn't exist");
+        return await context.Folders.FindAsync(folderId) ?? throw new Exception("Folder doesn't exist"); //Either bool or change name.
     }
 
     public async Task<User?> CheckIfUserExistsAsync(Guid userId)

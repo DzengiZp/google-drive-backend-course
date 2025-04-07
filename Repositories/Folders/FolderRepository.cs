@@ -25,7 +25,7 @@ public class FolderRepository(ApplicationDbContext context) : IFolderRepository
 
     public async Task<IEnumerable<Folder>> GetAllAsync()
     {
-        return await context.Folders.ToListAsync() ?? throw new Exception("No folders exist");
+        return await context.Folders.ToListAsync();
     }
 
     public async Task<Folder> GetByIdAsync(int id)

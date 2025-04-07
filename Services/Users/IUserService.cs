@@ -1,5 +1,5 @@
-public interface IUserService
-{
-    Task<string?> LoginAsync(UserDto userDto);
-    Task<User?> RegisterAsync(UserDto userDto);
-}
+// public interface IUserService
+// {
+//     Task<string?> LoginAsync(UserDto userDto);
+//     Task<User?> RegisterAsync(UserDto userDto);
+// }
