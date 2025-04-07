@@ -1,64 +1,24 @@
-using Microsoft.AspNetCore.Authorization;
-
 public class FolderService(IFolderRepository folderRepo) : IFolderService
 {
-    public async Task<Folder> CreateFolderAsync(FolderDto folderDto)
+    public async Task CreateFolderAsync(string folderName, string userId)
     {
-        try
+        var folder = new Folder
         {
-            var existingFolder = await folderRepo.GetAllAsync();
+            Id = Guid.NewGuid(),
+            FolderName = folderName,
+            UserId = userId
+        };
 
-            if (existingFolder.Any(f => f.FolderName == folderDto.FolderName && f.UserId == folderDto.UserId))
-                throw new Exception("Folder name for user already exists");
-
-            var folder = new Folder
-            {
-                FolderName = folderDto.FolderName,
-                UserId = folderDto.UserId
-            };
-
-            return await folderRepo.CreateAsync(folder);
-        }
-        catch (Exception ex)
-        {
-            throw new Exception(ex.Message);
-        }
+        await folderRepo.CreateForUserAsync(folder);
     }
 
-    public async Task<Folder?> DeleteFolderByIdAsync(int id)
+    public async Task<IEnumerable<Folder?>> GetAllFoldersByUserAsync(string userId)
     {
-        try
-        {
-            return await folderRepo.DeleteByIdAsync(id);
-        }
-        catch (Exception ex)
-        {
-            throw new Exception(ex.Message);
-        }
+        return await folderRepo.GetAllForUserAsync(userId);
     }
 
-    public async Task<IEnumerable<Folder>> GetAllFoldersAsync()
+    public async Task<Folder?> DeleteByFolderNameAsync(string folderName)
     {
-        try
-        {
-            return await folderRepo.GetAllAsync();
-        }
-        catch (Exception ex)
-        {
-            throw new Exception(ex.Message);
-        }
-    }
-
-    [Authorize] //Ask
-    public async Task<Folder> GetFolderByIdAsync(int id)
-    {
-        try
-        {
-            return await folderRepo.GetByIdAsync(id);
-        }
-        catch (Exception ex)
-        {
-            throw new Exception(ex.Message);
-        }
+        return await folderRepo.DeleteByFolderNameAsync(folderName);
     }
 }

@@ -1,7 +1,6 @@
 public interface IFolderRepository
 {
-    Task<Folder> CreateAsync(Folder folder);
-    Task<IEnumerable<Folder>> GetAllAsync();
-    Task<Folder> GetByIdAsync(int id);
-    Task<Folder?> DeleteByIdAsync(int id);
+    Task<Folder> CreateForUserAsync(Folder folder);
+    Task<IEnumerable<Folder?>> GetAllForUserAsync(string userId);
+    Task<Folder?> DeleteByFolderNameAsync(string folderName);
 }

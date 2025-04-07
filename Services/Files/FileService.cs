@@ -1,15 +1,9 @@
 public class FileService(IFileRepository fileRepository) : IFileService
 {
-    public async Task<File> UploadFileAsync(IFormFile uploadedFile, Guid userId, int folderId)
+    public async Task<File> UploadFileAsync(IFormFile uploadedFile, string userId, int folderId)
     {
         try
         {
-            if (await fileRepository.CheckIfUserExistsAsync(userId) == null)
-                throw new Exception("User doesn't exist");
-
-            if (await fileRepository.CheckIfUserExistsAsync(userId) == null)
-                throw new Exception("Folder doesn't exist");
-
             using var memoryStream = new MemoryStream();
             await uploadedFile.CopyToAsync(memoryStream);
 
@@ -28,7 +22,7 @@ public class FileService(IFileRepository fileRepository) : IFileService
         }
         catch (Exception ex)
         {
-            throw new Exception(ex.Message);
+            throw new Exception(ex.StackTrace);
         }
     }
 

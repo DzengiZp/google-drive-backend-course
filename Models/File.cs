@@ -11,7 +11,7 @@ public class File
     [Required]
     public byte[] FileContentBytes { get; set; } = [];
     [Required]
-    public Guid UserId { get; set; }
+    public string UserId { get; set; } = string.Empty;
     public int FolderId { get; set; }
     [JsonIgnore]
     public Folder? Folder { get; set; }

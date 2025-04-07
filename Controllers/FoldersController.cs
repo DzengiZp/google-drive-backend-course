@@ -1,51 +1,69 @@
-// using Microsoft.AspNetCore.Authorization;
-// using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
-// [Authorize]
-// [ApiController]
-// [Route("api/folders")]
-// public class FoldersController(IFolderService folderService) : ControllerBase
-// {
-//     string folder = "";
+[Authorize]
+[ApiController]
+[Route("api/folders")]
+public class FoldersController(IFolderService folderService) : ControllerBase
+{
 
-//     [HttpPost("create")]
-//     public async Task<ActionResult> Create([FromBody] FolderDto folderDto)
-//     {
-//         await folderService.CreateFolderAsync(folderDto);
+    [HttpPost("create")]
+    public async Task<ActionResult> Create([FromBody] string folderName)
+    {
+        try
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-//         return Ok(new Folder { FolderName = folderDto.FolderName, UserId = folderDto.UserId });
-//     }
+            if (string.IsNullOrWhiteSpace(userId)) return Unauthorized("You need to login to create a folder");
 
-//     [HttpGet("get{id}")]
-//     public async Task<ActionResult> GetById(int id)
-//     {
-//         var folder = await folderService.GetFolderByIdAsync(id);
-//         if (folder == null) return NotFound("Folder doesn't exist");
+            await folderService.CreateFolderAsync(folderName, userId);
 
-//         return Ok(folder);
-//     }
+            return Ok($"Folder \"{folderName}\" created");
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.StackTrace);
+        }
+    }
 
-//     [HttpGet("getall")]
-//     public async Task<ActionResult> GetAll()
-//     {
-//         var folders = await folderService.GetAllFoldersAsync();
-//         if (folders == null) return NotFound("There are no folders");
+    [HttpGet("get-all")]
+    public async Task<ActionResult> GetAll()
+    {
+        try
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-//         return Ok(folders);
-//     }
+            if (string.IsNullOrWhiteSpace(userId)) return Unauthorized("You need to login to retrieve your folders");
 
-//     [HttpDelete("delete{folderId}")]
-//     public async Task<ActionResult> DeleteById(int folderId)
-//     {
-//         var folder = await folderService.DeleteFolderByIdAsync(folderId);
-//         if (folder == null) return NotFound("Folder doesn't exist");
+            var folders = await folderService.GetAllFoldersByUserAsync(userId);
 
-//         return NoContent();
-//     }
+            return Ok(folders);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.StackTrace);
+        }
+    }
 
-//     public ActionResult Test([FromQuery] string name)
-//     {
-//         folder = name;
-//         return Ok(folder);
-//     }
-// }
+    [HttpDelete("delete{folderName}")]
+    public async Task<ActionResult> DeleteById(string folderName)
+    {
+        try
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (string.IsNullOrWhiteSpace(userId)) return Unauthorized("You need to login to delete a folder");
+
+            var folder = await folderService.DeleteByFolderNameAsync(folderName);
+
+            if (folder == null) return NotFound("Folder doesn't exist");
+
+            return NoContent();
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.StackTrace);
+        }
+    }
+}
