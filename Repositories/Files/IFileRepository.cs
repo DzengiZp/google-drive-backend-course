@@ -1,7 +1,7 @@
 public interface IFileRepository
 {
-    Task<File> UploadFileAsync(File file);
-    Task<IEnumerable<File>> GetAllFilesAsync(string userId);
-    Task<File?> DownloadFileByNameAsync(string userId);
-    Task DeleteFileByNameAsync(string userId);
+    Task<File> UploadFileToDbAsync(File file);
+    Task<IEnumerable<File>> GetAllFilesFromDbAsync(string userId);
+    Task<File?> GetFileInFolderFromDbAsync(string folderName, string userId, string fileName);
+    Task<(string, string)> DeleteFileFromDbAsync(string folderName, string userId, string fileName);
 }

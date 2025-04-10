@@ -3,18 +3,20 @@ using System.Data;
 public class FileService(IFileRepository fileRepository, IFolderRepository folderRepository) : IFileService
 {
     /// <summary>
-    /// 
+    /// Uploads a file by converting it to a byte array and saving it to the database, associating it with a folder and user.
     /// </summary>
-    /// <param name="uploadedFile"></param>
-    /// <param name="userId"></param>
-    /// <returns></returns>
-    /// <exception cref="NoNullAllowedException"></exception>
-    /// <exception cref="Exception"></exception>
+    /// <param name="uploadedFile">Specifies the file data being uploaded to the database.</param>
+    /// <param name="userId">Specifies the ID of the user uploading the file.</param>
+    /// <returns>The file object after being saved to the database.</returns>
+    /// <exception cref="NoNullAllowedException">Thrown when no file is provided or folder name is null.</exception>
+    /// <exception cref="Exception">Thrown if an error occurs during the upload process.</exception>
     public async Task<File> UploadFileAsync(CreateNewFileDto uploadedFile, string userId)
     {
         try
         {
             var folderId = await folderRepository.GetFolderFromDbAsync(uploadedFile.FolderName, userId);
+
+            if (folderId == Guid.Empty) throw new DirectoryNotFoundException("Folder does not exist to download files from");
 
             using var memoryStream = new MemoryStream();
 
@@ -33,7 +35,7 @@ public class FileService(IFileRepository fileRepository, IFolderRepository folde
                 FolderId = folderId
             };
 
-            return await fileRepository.UploadFileAsync(file);
+            return await fileRepository.UploadFileToDbAsync(file);
         }
         catch (Exception ex)
         {
@@ -42,32 +44,33 @@ public class FileService(IFileRepository fileRepository, IFolderRepository folde
     }
 
     /// <summary>
-    /// 
+    /// Retrieves all files that belong to the specified user.
     /// </summary>
-    /// <param name="userId"></param>
-    /// <returns></returns>
+    /// <param name="userId">The ID of the user who owns the files.</param>
+    /// <returns>A list of the files from the database owned by the user.</returns>
     public async Task<IEnumerable<File>> GetAllFilesAsync(string userId)
     {
-        return await fileRepository.GetAllFilesAsync(userId);
+        return await fileRepository.GetAllFilesFromDbAsync(userId);
     }
 
     /// <summary>
-    /// 
+    /// Retrieves a specific file from a specific folder for the specified user.
     /// </summary>
-    /// <param name="userId"></param>
-    /// <returns></returns>
-    public async Task<File?> DownloadFileByNameAsync(string userId)
+    /// <param name="folderName">The name of the folder that contains the file.</param>
+    /// <param name="userId">The ID of the user who owns the folder and file.</param>
+    /// <param name="fileName">The name of the file to download.</param>
+    /// <returns>The file found from the database.</returns>
+    public async Task<File?> DownloadFileByNameAsync(string folderName, string userId, string fileName)
     {
-        return await fileRepository.DownloadFileByNameAsync(userId);
+        return await fileRepository.GetFileInFolderFromDbAsync(folderName, userId, fileName);
     }
 
     /// <summary>
-    /// 
+    /// Deletes all files associated with the specified user from the database.
     /// </summary>
-    /// <param name="userId"></param>
-    /// <returns></returns>
-    public async Task DeleteFileByNameAsync(string userId)
+    /// <param name="userId">The ID of the user who owns the file to be deleted.</param>
+    public async Task DeleteFileByNameAsync(string folderName, string userId, string fileName)
     {
-        await fileRepository.DeleteFileByNameAsync(userId);
+        await fileRepository.DeleteFileFromDbAsync(folderName, userId, fileName);
     }
 }
