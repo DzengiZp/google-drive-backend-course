@@ -1,6 +1,6 @@
 public interface IFolderService
 {
     Task CreateFolderAsync(string folderName, string userId);
-    Task<IEnumerable<Folder?>> GetAllFoldersByUserAsync(string userId);
-    Task<Folder?> DeleteByFolderNameAsync(string folderName);
+    Task<IEnumerable<Folder?>> GetAllFoldersAsync(string userId);
+    Task DeleteFolderAsync(string folderName, string userId);
 }

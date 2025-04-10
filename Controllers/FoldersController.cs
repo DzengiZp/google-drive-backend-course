@@ -7,9 +7,13 @@ using Microsoft.AspNetCore.Mvc;
 [Route("api/folders")]
 public class FoldersController(IFolderService folderService) : ControllerBase
 {
-
+    /// <summary>
+    /// Creates a new folder for the authenticated user.
+    /// </summary>
+    /// <param name="folderDto">Specifies the folder data sent from the client.</param>
+    /// <returns>An error response if user is not logged in or if the folder wasn't created. A success message if the folder has been created.</returns>
     [HttpPost("create")]
-    public async Task<ActionResult> Create([FromBody] FolderDto folderDto)
+    public async Task<ActionResult> CreateFolder([FromBody] FolderDto folderDto)
     {
         try
         {
@@ -27,8 +31,12 @@ public class FoldersController(IFolderService folderService) : ControllerBase
         }
     }
 
+    /// <summary>
+    /// Gets all folders for the authenticated user.
+    /// </summary>
+    /// <returns>An error response if user is not logged in or if the folder wasn't retrieved. A success message if the folder has been retrieved.</returns>
     [HttpGet("get-all")]
-    public async Task<ActionResult> GetAll()
+    public async Task<ActionResult> GetAllFolders()
     {
         try
         {
@@ -36,7 +44,7 @@ public class FoldersController(IFolderService folderService) : ControllerBase
 
             if (string.IsNullOrWhiteSpace(userId)) return Unauthorized("You need to login to retrieve your folders");
 
-            var folders = await folderService.GetAllFoldersByUserAsync(userId);
+            var folders = await folderService.GetAllFoldersAsync(userId);
 
             return Ok(folders);
         }
@@ -46,8 +54,13 @@ public class FoldersController(IFolderService folderService) : ControllerBase
         }
     }
 
+    /// <summary>
+    /// Deletes the specified folder for the authenticated user.
+    /// </summary>
+    /// <param name="folderName">Specifies the name of the folder to be deleted.</param>
+    /// <returns>An error response if user is not logged in or if the folder wasn't deleted. A success message if the folder has been retrieved</returns>
     [HttpDelete("delete{folderName}")]
-    public async Task<ActionResult> DeleteById(string folderName)
+    public async Task<ActionResult> DeleteFolder(string folderName)
     {
         try
         {
@@ -55,9 +68,7 @@ public class FoldersController(IFolderService folderService) : ControllerBase
 
             if (string.IsNullOrWhiteSpace(userId)) return Unauthorized("You need to login to delete a folder");
 
-            var folder = await folderService.DeleteByFolderNameAsync(folderName);
-
-            if (folder == null) return NotFound("Folder doesn't exist");
+            await folderService.DeleteFolderAsync(folderName, userId);
 
             return NoContent();
         }

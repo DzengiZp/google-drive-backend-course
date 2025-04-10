@@ -5,6 +5,11 @@ using Microsoft.AspNetCore.Mvc;
 [Route("api/files")]
 public class FilesController(IFileService fileService) : ControllerBase
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="uploadedFile"></param>
+    /// <returns></returns>
     [HttpPost("upload")]
     public async Task<ActionResult> UploadFile([FromForm] CreateNewFileDto uploadedFile)
     {
@@ -19,6 +24,10 @@ public class FilesController(IFileService fileService) : ControllerBase
         return Ok("Uploaded");
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
     [HttpGet("getall")]
     public async Task<ActionResult> GetAllFiles()
     {
@@ -40,14 +49,19 @@ public class FilesController(IFileService fileService) : ControllerBase
         }
     }
 
-    [HttpGet("download/{fileDto}")]
-    public async Task<ActionResult> DownloadFile(FileDto fileDto)
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="fileName"></param>
+    /// <returns></returns>
+    [HttpGet("download/{fileName}")]
+    public async Task<ActionResult> DownloadFile(string fileName)
     {
         try
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-            if (string.IsNullOrWhiteSpace(userId)) return Unauthorized("You have to login to see files");
+            if (string.IsNullOrWhiteSpace(userId)) return Unauthorized("You have to login to download the file");
 
             var file = await fileService.DownloadFileByNameAsync(userId);
 
@@ -61,6 +75,11 @@ public class FilesController(IFileService fileService) : ControllerBase
         }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="fileName"></param>
+    /// <returns></returns>
     [HttpDelete("delete/{fileName}")]
     public async Task<ActionResult> DeleteFile(string fileName)
     {

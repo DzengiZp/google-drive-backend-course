@@ -14,17 +14,17 @@
 
 **8. Använd EF.**
 
-9. Registrering av användare (Använd BCrypt för hashing och salt.) //WRONG - IDENTITY CORE
+**9. Registrering av användare.**
 
-10. Inloggning av användare med tokens.
+**10. Inloggning av användare med tokens.**
 
-11. Alla mappar och filer skall vara kopplade till en användare.
+**11. Alla mappar och filer skall vara kopplade till en användare.**
 
 12. Användare kan inte se andras filer och mappar.
 
 13. Om man inte är inloggad kan man inte göra något, förutom att registrera en användare och logga in.
 
-14. Använd C-S-R arkitektur med SRP.
+**14. Använd C-S-R arkitektur med SRP.**
 
 15. Kommentera alla service metoder med en C# standard, allt de andra behöver men man kan om man vill.
 
@@ -34,7 +34,7 @@
 
 18. Formatera koden.
 
-P1, EXTRA!
+P1, EXTRA! - Om tid finns.
 
 1. Recursive mappar
 
