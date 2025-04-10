@@ -6,7 +6,7 @@ public class FolderRepository(ApplicationDbContext context) : IFolderRepository
     /// Creates and saves a folder object in the database.
     /// </summary>
     /// <param name="folder">Recieves the folder object to be created.</param>
-    /// <returns>The created folder entity.</returns>
+    /// <returns>The created folder object.</returns>
     public async Task<Folder> CreateFolderInDbAsync(Folder folder)
     {
         await context.Folders.AddAsync(folder);
@@ -25,7 +25,7 @@ public class FolderRepository(ApplicationDbContext context) : IFolderRepository
     public async Task<Guid> GetFolderFromDbAsync(string folderName, string userId)
     {
         var folder = await context.Folders.FirstOrDefaultAsync(f => f.FolderName == folderName && f.UserId == userId)
-            ?? throw new ArgumentNullException($"Folder \"{folderName}\" not found");
+            ?? throw new ArgumentNullException($"\"{folderName}\" was not found", "Folder name");
 
         return folder.Id;
     }

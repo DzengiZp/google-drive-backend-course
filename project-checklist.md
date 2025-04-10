@@ -20,17 +20,17 @@
 
 **11. Alla mappar och filer skall vara kopplade till en användare.**
 
-12. Användare kan inte se andras filer och mappar.
+**12. Användare kan inte se andras filer och mappar.**
 
-13. Om man inte är inloggad kan man inte göra något, förutom att registrera en användare och logga in.
+**13. Om man inte är inloggad kan man inte göra något, förutom att registrera en användare och logga in.**
 
-**14. Använd C-S-R arkitektur med SRP.**
+**14. Använd C-S-R arkitektur med SRP.** (NOT SRP)
 
-15. Kommentera alla service metoder med en C# standard, allt de andra behöver men man kan om man vill.
+**15. Kommentera alla service metoder med en C# standard, allt de andra behöver men man kan om man vill.**
 
-16. Implementera säkerhet. (Punkt 9-13) (Authorization)
+**16. Implementera säkerhet. (Punkt 9-13) (Authorization)**
 
-17. Try Catch överallt
+**17. Try Catch överallt**
 
 18. Formatera koden.
 
