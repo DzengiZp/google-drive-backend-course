@@ -11,8 +11,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace google_drive.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250407081100_Testing")]
-    partial class Testing
+    [Migration("20250410124312_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -26,11 +26,9 @@ namespace google_drive.Migrations
 
             modelBuilder.Entity("File", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                        .HasColumnType("uuid");
 
                     b.Property<byte[]>("FileContentBytes")
                         .IsRequired()
@@ -44,15 +42,18 @@ namespace google_drive.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("FolderId")
-                        .HasColumnType("integer");
-
-                    b.Property<Guid>("UserId")
+                    b.Property<Guid>("FolderId")
                         .HasColumnType("uuid");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("FolderId")
+                    b.HasIndex("FolderId");
+
+                    b.HasIndex("FileName", "FolderId")
                         .IsUnique();
 
                     b.ToTable("Files");
@@ -60,23 +61,22 @@ namespace google_drive.Migrations
 
             modelBuilder.Entity("Folder", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                        .HasColumnType("uuid");
 
                     b.Property<string>("FolderName")
                         .IsRequired()
                         .HasMaxLength(15)
                         .HasColumnType("character varying(15)");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uuid");
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId")
+                    b.HasIndex("UserId", "FolderName")
                         .IsUnique();
 
                     b.ToTable("Folders");

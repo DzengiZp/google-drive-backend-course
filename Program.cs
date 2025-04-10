@@ -19,24 +19,6 @@ builder.Services.AddIdentityCore<User>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddApiEndpoints();
 
-// builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-// .AddJwtBearer(options =>
-// {
-//     options.TokenValidationParameters = new TokenValidationParameters
-//     {
-//         ValidateIssuer = true,
-//         ValidIssuer = builder.Configuration["AppSettings:Issuer"],
-//         ValidateAudience = true,
-//         ValidAudience = builder.Configuration["AppSettings:Audience"],
-//         ValidateLifetime = true,
-//         IssuerSigningKey = new SymmetricSecurityKey(
-//             Encoding.UTF8.GetBytes(builder.Configuration["AppSettings:Token"]!)),
-//         ValidateIssuerSigningKey = true
-//     };
-// });
-
-// builder.Services.AddScoped<IUserService, UserService>();
-// builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IFolderService, FolderService>();
 builder.Services.AddScoped<IFolderRepository, FolderRepository>();
 builder.Services.AddScoped<IFileService, FileService>();

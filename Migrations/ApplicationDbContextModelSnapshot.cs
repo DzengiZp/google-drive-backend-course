@@ -23,11 +23,9 @@ namespace google_drive.Migrations
 
             modelBuilder.Entity("File", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                        .HasColumnType("uuid");
 
                     b.Property<byte[]>("FileContentBytes")
                         .IsRequired()
@@ -41,8 +39,8 @@ namespace google_drive.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("FolderId")
-                        .HasColumnType("integer");
+                    b.Property<Guid>("FolderId")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("UserId")
                         .IsRequired()
@@ -50,7 +48,9 @@ namespace google_drive.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("FolderId")
+                    b.HasIndex("FolderId");
+
+                    b.HasIndex("FileName", "FolderId")
                         .IsUnique();
 
                     b.ToTable("Files");
@@ -58,11 +58,9 @@ namespace google_drive.Migrations
 
             modelBuilder.Entity("Folder", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                        .HasColumnType("uuid");
 
                     b.Property<string>("FolderName")
                         .IsRequired()
@@ -75,7 +73,7 @@ namespace google_drive.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId")
+                    b.HasIndex("UserId", "FolderName")
                         .IsUnique();
 
                     b.ToTable("Folders");

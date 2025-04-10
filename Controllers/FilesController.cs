@@ -6,44 +6,65 @@ using Microsoft.AspNetCore.Mvc;
 public class FilesController(IFileService fileService) : ControllerBase
 {
     [HttpPost("upload")]
-    public async Task<ActionResult> UploadFile(IFormFile uploadedFile, [FromQuery] int folderId)
+    public async Task<ActionResult> UploadFile([FromForm] CreateNewFileDto uploadedFile)
     {
         var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
         if (string.IsNullOrWhiteSpace(userId)) return Unauthorized("You have to login to upload files");
 
-        var file = await fileService.UploadFileAsync(uploadedFile, userId, folderId);
+        var file = await fileService.UploadFileAsync(uploadedFile, userId);
 
-        if (file == null) return BadRequest("Can't upload null, select a file");
+        if (file == null) return BadRequest("Error when uploading file");
 
-        return Ok();
+        return Ok("Uploaded");
     }
 
     [HttpGet("getall")]
     public async Task<ActionResult> GetAllFiles()
     {
-        var files = await fileService.GetAllFilesAsync();
+        try
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-        if (files == null) return NotFound("There are no files");
+            if (string.IsNullOrWhiteSpace(userId)) return Unauthorized("You have to login to see files");
 
-        return Ok(files);
+            var files = await fileService.GetAllFilesAsync(userId);
+
+            if (files == null) return NotFound("There are no files");
+
+            return Ok(files);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
 
-    [HttpGet("download/{id}")]
-    public async Task<ActionResult> DownloadById(int id)
+    [HttpGet("download/{fileDto}")]
+    public async Task<ActionResult> DownloadFile(FileDto fileDto)
     {
-        var file = await fileService.GetFileByIdAsync(id);
+        try
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-        if (file is null) return NotFound($"File does not exist");
+            if (string.IsNullOrWhiteSpace(userId)) return Unauthorized("You have to login to see files");
 
-        return File(file.FileContentBytes, "application/octet-stream", file.FileName);
+            var file = await fileService.DownloadFileByNameAsync(userId);
+
+            if (file is null) return NotFound($"File does not exist");
+
+            return File(file.FileContentBytes, "application/octet-stream", file.FileName);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
 
-    [HttpDelete("delete/{id}")]
-    public async Task<ActionResult> DeleteById(int id)
+    [HttpDelete("delete/{fileName}")]
+    public async Task<ActionResult> DeleteFile(string fileName)
     {
-        var file = await fileService.DeleteFileByIdAsync(id);
-        if (file == null) return NotFound(file);
+        await fileService.DeleteFileByNameAsync(fileName);
 
         return NoContent();
     }

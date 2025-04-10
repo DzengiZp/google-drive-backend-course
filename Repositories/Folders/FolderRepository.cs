@@ -10,6 +10,13 @@ public class FolderRepository(ApplicationDbContext context) : IFolderRepository
         return folder;
     }
 
+    public async Task<Guid> GetFolderIdByNameAsync(string folderName, string userId)
+    {
+        var folder = await context.Folders.FirstOrDefaultAsync(f => f.FolderName == folderName && f.UserId == userId) ?? throw new Exception("Folder not found");
+
+        return folder.Id;
+    }
+
     public async Task<IEnumerable<Folder?>> GetAllForUserAsync(string userId)
     {
         return await context.Folders.Where(f => f.UserId == userId).ToListAsync();

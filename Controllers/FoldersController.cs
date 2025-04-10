@@ -9,7 +9,7 @@ public class FoldersController(IFolderService folderService) : ControllerBase
 {
 
     [HttpPost("create")]
-    public async Task<ActionResult> Create([FromBody] string folderName)
+    public async Task<ActionResult> Create([FromBody] FolderDto folderDto)
     {
         try
         {
@@ -17,13 +17,13 @@ public class FoldersController(IFolderService folderService) : ControllerBase
 
             if (string.IsNullOrWhiteSpace(userId)) return Unauthorized("You need to login to create a folder");
 
-            await folderService.CreateFolderAsync(folderName, userId);
+            await folderService.CreateFolderAsync(folderDto.FolderName, userId);
 
-            return Ok($"Folder \"{folderName}\" created");
+            return Ok($"Folder \"{folderDto.FolderName}\" created");
         }
         catch (Exception ex)
         {
-            return BadRequest(ex.StackTrace);
+            return BadRequest(ex.Message);
         }
     }
 
@@ -42,7 +42,7 @@ public class FoldersController(IFolderService folderService) : ControllerBase
         }
         catch (Exception ex)
         {
-            return BadRequest(ex.StackTrace);
+            return BadRequest(ex.Message);
         }
     }
 
@@ -63,7 +63,7 @@ public class FoldersController(IFolderService folderService) : ControllerBase
         }
         catch (Exception ex)
         {
-            return BadRequest(ex.StackTrace);
+            return BadRequest(ex.Message);
         }
     }
 }
