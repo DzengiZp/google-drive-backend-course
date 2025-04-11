@@ -17,18 +17,28 @@ public class FilesController(IFileService fileService) : ControllerBase
     {
         try
         {
+            // COMMENT: Det finns en hjälp metod: User.FindFirstValue (så slipper du göra ?.Value)
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-            if (string.IsNullOrWhiteSpace(userId)) return Unauthorized("You have to login to upload files");
+            if (string.IsNullOrWhiteSpace(userId))
+                return Unauthorized("You have to login to upload files");
 
             var file = await fileService.UploadFileAsync(uploadedFile, userId);
 
-            if (file == null) return BadRequest("Error when uploading file");
+            // COMMENT: Bad request är ofta till för "dåliga" requests (format)
+            // Jag rekommenderar att hantera alla fel med try/catch och exceptions
+            // Du kan kolla med Martin hur han har implementerat det för han kan visa exempel
+            // Jag kommer också att gå igenom detta i framtiden
+            // EDIT: Jag ser nu att du använder exception på det sättet
+            // så du kan hantera det med flera catches här i controllern också
+            if (file == null)
+                return BadRequest("Error when uploading file");
 
             return Ok("Uploaded");
         }
         catch (Exception ex)
         {
+            // COMMENT: Undvik att returnera alla exception meddelanden då de kan innehålla känslig information (som stack traces)
             return StatusCode(405, ex.Message);
         }
     }
@@ -44,11 +54,13 @@ public class FilesController(IFileService fileService) : ControllerBase
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-            if (string.IsNullOrWhiteSpace(userId)) return Unauthorized("You have to login to see files");
+            if (string.IsNullOrWhiteSpace(userId))
+                return Unauthorized("You have to login to see files");
 
             var files = await fileService.GetAllFilesAsync(userId);
 
-            if (files == null) return NotFound("There are no files");
+            if (files == null)
+                return NotFound("There are no files");
 
             return Ok(files);
         }
@@ -71,13 +83,20 @@ public class FilesController(IFileService fileService) : ControllerBase
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-            if (string.IsNullOrWhiteSpace(userId)) return Unauthorized("You have to login to download the file");
+            if (string.IsNullOrWhiteSpace(userId))
+                return Unauthorized("You have to login to download the file");
 
             var file = await fileService.DownloadFileByNameAsync(folderName, userId, fileName);
 
-            if (file == null) return NotFound($"File does not exist");
+            if (file == null)
+                return NotFound($"File does not exist");
 
-            return File(file.FileContentBytes, "application/octet-stream", file.FileName, enableRangeProcessing: true);
+            return File(
+                file.FileContentBytes,
+                "application/octet-stream",
+                file.FileName,
+                enableRangeProcessing: true
+            );
         }
         catch (Exception ex)
         {
@@ -91,13 +110,17 @@ public class FilesController(IFileService fileService) : ControllerBase
     /// <param name="fileName">Specifies the file name for the file to be deleted.</param>
     /// <returns></returns>
     [HttpDelete("delete")]
-    public async Task<ActionResult> DeleteFile([FromQuery] string folderName, [FromQuery] string fileName)
+    public async Task<ActionResult> DeleteFile(
+        [FromQuery] string folderName,
+        [FromQuery] string fileName
+    )
     {
         try
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-            if (string.IsNullOrWhiteSpace(userId)) return Unauthorized("You have to login to download the file");
+            if (string.IsNullOrWhiteSpace(userId))
+                return Unauthorized("You have to login to download the file");
 
             await fileService.DeleteFileByNameAsync(folderName, userId, fileName);
 

@@ -7,11 +7,12 @@ public class FolderService(IFolderRepository folderRepo) : IFolderService
     /// <param name="userId">Specifies the ID of the user who owns the folder.</param>
     public async Task CreateFolderAsync(string folderName, string userId)
     {
+        // COMMENT: Kan behöva validering av filnamn (om inte ASP.NET gör det?)
         var folder = new Folder
         {
             Id = Guid.NewGuid(),
             FolderName = folderName,
-            UserId = userId
+            UserId = userId,
         };
 
         await folderRepo.CreateFolderInDbAsync(folder);

@@ -19,10 +19,12 @@ public class FoldersController(IFolderService folderService) : ControllerBase
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-            if (string.IsNullOrWhiteSpace(userId)) return Unauthorized("You need to login to create a folder");
+            if (string.IsNullOrWhiteSpace(userId))
+                return Unauthorized("You need to login to create a folder");
 
             await folderService.CreateFolderAsync(folderDto.FolderName, userId);
 
+            // COMMENT: Returnera meddelanden behövs oftast inte (då detta kan skrivas in i frontend)
             return Ok($"Folder \"{folderDto.FolderName}\" created");
         }
         catch (Exception ex)
@@ -42,7 +44,8 @@ public class FoldersController(IFolderService folderService) : ControllerBase
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-            if (string.IsNullOrWhiteSpace(userId)) return Unauthorized("You need to login to retrieve your folders");
+            if (string.IsNullOrWhiteSpace(userId))
+                return Unauthorized("You need to login to retrieve your folders");
 
             var folders = await folderService.GetAllFoldersAsync(userId);
 
@@ -66,7 +69,8 @@ public class FoldersController(IFolderService folderService) : ControllerBase
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-            if (string.IsNullOrWhiteSpace(userId)) return Unauthorized("You need to login to delete a folder");
+            if (string.IsNullOrWhiteSpace(userId))
+                return Unauthorized("You need to login to delete a folder");
 
             await folderService.DeleteFolderAsync(folderName, userId);
 
