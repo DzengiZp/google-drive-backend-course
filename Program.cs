@@ -26,8 +26,6 @@ builder.Services.AddScoped<IFileRepository, FileRepository>();
 
 builder.Services.AddControllers();
 
-// builder.Services.AddTransient<IEmailSender, ConsoleEmailSender>();
-
 builder.Services.AddOpenApi();
 
 var app = builder.Build();
